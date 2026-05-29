@@ -81,6 +81,8 @@ const games = [
   }
 ];
 
+window.games = games;
+
 const grid = document.querySelector("#gameGrid");
 const searchInput = document.querySelector("#searchInput");
 const dialog = document.querySelector("#gameDialog");
@@ -125,6 +127,8 @@ function renderCards() {
       grid.append(card);
     });
 }
+
+window.renderCards = renderCards;
 
 function openGame(game) {
   if (activeCleanup) activeCleanup();

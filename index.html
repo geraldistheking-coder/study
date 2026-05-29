@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pixel Lounge Arcade</title>
+    <title>Study Break Arcade</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <header class="topbar">
-      <a class="brand" href="#home" aria-label="Pixel Lounge Arcade home">
-        <span class="brand-mark">PL</span>
-        <span>Pixel Lounge</span>
+      <a class="brand" href="#home" aria-label="Study Break Arcade home">
+        <img class="brand-logo" src="assets/logo.svg" alt="">
+        <span>Study Break</span>
       </a>
       <nav class="nav" aria-label="Primary navigation">
         <a href="#games">Games</a>
@@ -22,11 +22,12 @@
     <main id="home">
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">Your personal HTML5 arcade</p>
-          <h1>Pixel Lounge Arcade</h1>
+          <p class="eyebrow">Quick games between study sessions</p>
+          <h1>Study Break Arcade</h1>
           <p>
             A GitHub Pages-ready game hub with original browser games, a clean
-            launcher, search, favorites, and a vibe you can rename into your own.
+            launcher, search, favorites, and room for games you have permission
+            to host or embed.
           </p>
           <div class="hero-actions">
             <a class="button primary" href="#games">Play</a>
@@ -37,7 +38,7 @@
           <div class="screen">
             <span class="scanline"></span>
             <strong>10</strong>
-            <span>built-in mini games</span>
+            <span>built-in study break games</span>
           </div>
           <div class="console-controls">
             <span></span>
@@ -67,15 +68,15 @@
           <h2>Add your own games</h2>
           <p>
             Put each HTML5 game in its own folder under <code>games/</code>,
-            then add a card for it in <code>app.js</code>. Use only games you
-            made, open-source games with a license that allows reuse, or embeds
-            the creator specifically allows.
+            then add a card for it in <code>external-games.js</code>. Use only
+            games you made, open-source games with a license that allows reuse,
+            or embeds the creator specifically allows.
           </p>
         </div>
         <ol class="steps">
           <li>Create <code>games/my-game/index.html</code>.</li>
           <li>Add assets beside it using relative paths.</li>
-          <li>Add a game card entry in <code>app.js</code>.</li>
+          <li>Add a game card entry in <code>external-games.js</code>.</li>
           <li>Credit the creator if the license requires it.</li>
         </ol>
       </section>
@@ -117,5 +118,6 @@
     </template>
 
     <script src="app.js"></script>
+    <script src="external-games.js"></script>
   </body>
 </html>

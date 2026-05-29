@@ -71,13 +71,11 @@ input {
   font-weight: 900;
 }
 
-.brand-mark {
-  display: grid;
+.brand-logo {
   width: 2.5rem;
   height: 2.5rem;
-  place-items: center;
-  color: #101115;
-  background: linear-gradient(135deg, var(--mint), var(--gold));
+  display: block;
+  background: #fffaf2;
   border-radius: 0.45rem;
   box-shadow: 0 0 0 3px rgba(255, 250, 242, 0.08);
 }
@@ -413,6 +411,14 @@ code {
 .game-mount {
   min-height: 32rem;
   padding: 1rem;
+}
+
+.game-mount iframe {
+  width: 100%;
+  min-height: 34rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: #0b0c10;
 }
 
 .play-area {

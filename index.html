@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pixel Lounge Arcade</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="Pixel Lounge Arcade home">
+        <span class="brand-mark">PL</span>
+        <span>Pixel Lounge</span>
+      </a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#games">Games</a>
+        <a href="#add">Add Games</a>
+        <a href="#publish">Publish</a>
+      </nav>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Your personal HTML5 arcade</p>
+          <h1>Pixel Lounge Arcade</h1>
+          <p>
+            A GitHub Pages-ready game hub with original browser games, a clean
+            launcher, search, favorites, and a vibe you can rename into your own.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#games">Play</a>
+            <a class="button ghost" href="#add">Learn to add games</a>
+          </div>
+        </div>
+        <div class="hero-console" aria-label="Featured arcade status">
+          <div class="screen">
+            <span class="scanline"></span>
+            <strong>10</strong>
+            <span>built-in mini games</span>
+          </div>
+          <div class="console-controls">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </section>
+
+      <section id="games" class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Launch shelf</p>
+            <h2>Pick a game</h2>
+          </div>
+          <label class="search">
+            <span>Search</span>
+            <input id="searchInput" type="search" placeholder="snake, puzzle, reflex...">
+          </label>
+        </div>
+        <div id="gameGrid" class="game-grid" aria-live="polite"></div>
+      </section>
+
+      <section id="add" class="section split">
+        <div>
+          <p class="eyebrow">Grow the arcade</p>
+          <h2>Add your own games</h2>
+          <p>
+            Put each HTML5 game in its own folder under <code>games/</code>,
+            then add a card for it in <code>app.js</code>. Use only games you
+            made, open-source games with a license that allows reuse, or embeds
+            the creator specifically allows.
+          </p>
+        </div>
+        <ol class="steps">
+          <li>Create <code>games/my-game/index.html</code>.</li>
+          <li>Add assets beside it using relative paths.</li>
+          <li>Add a game card entry in <code>app.js</code>.</li>
+          <li>Credit the creator if the license requires it.</li>
+        </ol>
+      </section>
+
+      <section id="publish" class="section split publish">
+        <div>
+          <p class="eyebrow">GitHub Pages</p>
+          <h2>Publish it</h2>
+          <p>
+            Upload these files to a GitHub repo, then enable Pages from the
+            repo settings. Your site will be live at
+            <code>https://yourusername.github.io/repo-name/</code>.
+          </p>
+        </div>
+        <a class="button primary" href="README.md">Open tutorial</a>
+      </section>
+    </main>
+
+    <dialog id="gameDialog" class="game-dialog">
+      <div class="dialog-top">
+        <div>
+          <p id="gameType" class="eyebrow">Game</p>
+          <h2 id="gameTitle">Game</h2>
+        </div>
+        <button id="closeGame" class="icon-button" type="button" aria-label="Close game">X</button>
+      </div>
+      <div id="gameMount" class="game-mount"></div>
+    </dialog>
+
+    <template id="cardTemplate">
+      <article class="game-card">
+        <button class="favorite" type="button" aria-label="Toggle favorite">☆</button>
+        <div class="game-icon" aria-hidden="true"></div>
+        <p class="game-tag"></p>
+        <h3></h3>
+        <p class="game-description"></p>
+        <button class="play-button" type="button">Play</button>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>

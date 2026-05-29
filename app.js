@@ -78,6 +78,14 @@ const games = [
     icon: "G",
     description: "Repeat the color pattern as it gets longer.",
     render: renderSimon
+  },
+  {
+    id: "wheelie-lab",
+    title: "Wheelie Lab",
+    type: "Physics",
+    icon: "W",
+    description: "A local obstacle-runner inspired by chaotic physics games.",
+    render: renderWheelieLab
   }
 ];
 
@@ -761,6 +769,140 @@ function renderSimon(mount) {
   return () => {
     accepting = false;
   };
+}
+
+function renderWheelieLab(mount) {
+  const ui = shell(mount, ["Score"]);
+  const [canvas, ctx] = addCanvas(ui.area, 720, 420);
+  let rider = { x: 95, y: 300, vy: 0, angle: 0, grounded: true };
+  let camera = 0;
+  let score = 0;
+  let over = false;
+  const keys = new Set();
+  const obstacles = [
+    { x: 420, y: 330, w: 42, h: 38 },
+    { x: 720, y: 304, w: 68, h: 64 },
+    { x: 1040, y: 342, w: 90, h: 26 },
+    { x: 1390, y: 315, w: 52, h: 54 },
+    { x: 1730, y: 334, w: 120, h: 34 },
+    { x: 2120, y: 308, w: 78, h: 60 }
+  ];
+
+  function reset() {
+    rider = { x: 95, y: 300, vy: 0, angle: 0, grounded: true };
+    camera = 0;
+    score = 0;
+    over = false;
+    ui.stat("Score", score);
+  }
+
+  const keydown = (event) => {
+    if (["ArrowUp", "ArrowRight", " "].includes(event.key)) event.preventDefault();
+    keys.add(event.key);
+  };
+  const keyup = (event) => keys.delete(event.key);
+  window.addEventListener("keydown", keydown);
+  window.addEventListener("keyup", keyup);
+  ui.controls.append(button("Restart", reset));
+
+  let frame;
+  function loop() {
+    const speed = keys.has("ArrowRight") ? 5.8 : 3.2;
+    if (!over) {
+      rider.x += speed;
+      rider.vy += 0.55;
+      rider.y += rider.vy;
+      rider.angle += keys.has("ArrowUp") ? -0.055 : 0.025;
+      if ((keys.has(" ") || keys.has("ArrowUp")) && rider.grounded) {
+        rider.vy = -11.5;
+        rider.grounded = false;
+      }
+      const ground = terrain(rider.x);
+      if (rider.y >= ground) {
+        rider.y = ground;
+        rider.vy = 0;
+        rider.grounded = true;
+        rider.angle *= 0.88;
+      }
+      camera = rider.x - 120;
+      score = Math.max(score, Math.floor(rider.x / 12));
+      over = Math.abs(rider.angle) > 1.35 || obstacles.some((box) => collides(rider, box));
+    }
+
+    ui.stat("Score", score);
+    drawWheelie(ctx, canvas, rider, camera, obstacles, over);
+    frame = requestAnimationFrame(loop);
+  }
+
+  loop();
+  return () => {
+    cancelAnimationFrame(frame);
+    window.removeEventListener("keydown", keydown);
+    window.removeEventListener("keyup", keyup);
+  };
+}
+
+function terrain(x) {
+  return 334 + Math.sin(x / 95) * 16 + Math.sin(x / 43) * 5;
+}
+
+function collides(rider, box) {
+  const rx = rider.x;
+  const ry = rider.y - 28;
+  return rx + 34 > box.x && rx - 34 < box.x + box.w && ry + 28 > box.y && ry - 28 < box.y + box.h;
+}
+
+function drawWheelie(ctx, canvas, rider, camera, obstacles, over) {
+  ctx.fillStyle = "#0b0c10";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#18241e";
+  ctx.beginPath();
+  ctx.moveTo(0, canvas.height);
+  for (let x = 0; x <= canvas.width; x += 12) {
+    const worldX = x + camera;
+    ctx.lineTo(x, terrain(worldX) + 38);
+  }
+  ctx.lineTo(canvas.width, canvas.height);
+  ctx.fill();
+
+  ctx.strokeStyle = "#54f5b5";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  for (let x = 0; x <= canvas.width; x += 12) {
+    const worldX = x + camera;
+    const y = terrain(worldX) + 38;
+    if (x === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  obstacles.forEach((box) => {
+    ctx.fillStyle = "#ff7867";
+    ctx.fillRect(box.x - camera, box.y + 38, box.w, box.h);
+  });
+
+  ctx.save();
+  ctx.translate(rider.x - camera, rider.y + 38);
+  ctx.rotate(rider.angle);
+  ctx.strokeStyle = "#fffaf2";
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.arc(-22, 0, 17, 0, Math.PI * 2);
+  ctx.arc(24, 0, 17, 0, Math.PI * 2);
+  ctx.moveTo(-22, 0);
+  ctx.lineTo(0, -24);
+  ctx.lineTo(24, 0);
+  ctx.moveTo(0, -24);
+  ctx.lineTo(9, -45);
+  ctx.stroke();
+  ctx.fillStyle = "#ffd166";
+  ctx.beginPath();
+  ctx.arc(9, -53, 9, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  if (over) drawMessage(ctx, canvas, "Wipeout! Restart?");
 }
 
 function button(label, action) {

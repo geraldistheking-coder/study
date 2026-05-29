@@ -1,6 +1,6 @@
 # Study Break Arcade
 
-This is a static GitHub Pages arcade site. It has 10 original mini games built with HTML, CSS, and JavaScript, so you can upload it without installing anything.
+This is a static GitHub Pages arcade site. It has 11 original mini games built with HTML, CSS, and JavaScript, so you can upload it without installing anything.
 
 ## How to publish it
 
@@ -56,6 +56,8 @@ Then add a card to the `externalGames` array in `external-games.js`:
   credit: "Made by Your Name"
 }
 ```
+
+`external-games.js` only allows local `games/...` links. External sites are blocked by the launcher on purpose.
 
 ## Where to get games legally
 

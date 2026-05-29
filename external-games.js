@@ -16,6 +16,14 @@ const externalGames = [
 
 function renderExternalGame(game) {
   return (mount) => {
+    if (!isLocalGameUrl(game.url)) {
+      mount.innerHTML = `
+        <div class="play-area">
+          <p class="stat">External sites are disabled for this arcade.</p>
+        </div>
+      `;
+      return () => {};
+    }
     mount.innerHTML = `
       <div class="play-area">
         <iframe src="${game.url}" title="${game.title}" allowfullscreen></iframe>
@@ -24,6 +32,10 @@ function renderExternalGame(game) {
     `;
     return () => {};
   };
+}
+
+function isLocalGameUrl(url) {
+  return typeof url === "string" && (url.startsWith("games/") || url.startsWith("./games/"));
 }
 
 if (Array.isArray(window.games)) {
